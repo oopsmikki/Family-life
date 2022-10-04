@@ -3,8 +3,13 @@
 from termcolor import cprint
 from random import randint
 
+# Модель жизни семьи. В семье есть муж, жена, кот и ребёнок. Семья должна прожить минимум год.
+# В конце года подсчёт, сколько муж заработал денег, сколько было съедено, и сколько жена купила шуб.
 
 class Man:
+    
+# Создадим класс человека, у человека есть атрибуты - сытость, счастье, и поселим его в дом.
+# В зависимости от действий, у человека меняются уровни сытости и счастья.
 
     def __init__(self, name):
         self.name = name
@@ -43,6 +48,10 @@ class Man:
 
 class Husband(Man):
 
+# Создадим класс мужа, порождённый от класса человек. 
+# Добавляется метод действия - act, который основан на рандомном выборе числа, за которым стоит определённое действие.
+# При этом, муж не должен быть голодным, если в доме становится мало денег, он должен идти на работу, а если он взгрустнул - нужно поиграть.
+    
     def __init__(self, name):
         super().__init__(name=name)
         self.earn_money = 0
@@ -76,13 +85,17 @@ class Husband(Man):
         self.happiness -= 10
 
     def gaming(self):
-        cprint('{} расхерачил пидорасов в WOT'.format(self.name), color='red')
+        cprint('{} разбил противников в WOT'.format(self.name), color='red')
         self.happiness += 20
         self.fullness -= 10
 
 
 class Wife(Man):
-
+    
+# Создадим класс жены, порождённый от класса человек, по аналогии с классом мужа. 
+# Жена не должна быть голодной, следить за уровнем еды в доме, в т.ч. кошачьей, убираться.
+# Она также может покупать шубу, если денег в доме накопилось достаточно, и гладить кошку, если стало скучно.
+    
     def __init__(self, name):
         super().__init__(name=name)
         self.fur = 0
@@ -140,6 +153,9 @@ class Wife(Man):
 
 
 class House:
+    
+# Создадим класс дома, в котором все живут. В доме есть сейф с деньгами, холодильник с едой 
+# и он имеет свойство загрязняться.
 
     def __init__(self):
         self.money = 100
@@ -156,6 +172,8 @@ class House:
 
 
 class Cat:
+    
+# Кот самостоятельный, его ни от кого не порождаем. В целом всё по аналогии с другими жителями.
 
     def __init__(self, name):
         self.name = name
@@ -199,6 +217,8 @@ class Cat:
 
 
 class Child(Man):
+    
+# Ребёнок порожден от класса человек. Почти всегда спит.
 
     def __init__(self, name):
         super().__init__(name=name)
@@ -227,12 +247,15 @@ class Child(Man):
         self.fullness -= 10
         cprint('Ребёнок {} поспал.'.format(self.name), color='blue')
 
+# Дадим всем членам семьи имена.
 
 home = House()
 serge = Husband(name='Сережа')
 masha = Wife(name='Маша')
 bozon = Cat(name='Бозон')
 vasya = Child(name='Вася')
+
+# И сэмулируем их жизнь за год.
 
 for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='red')
@@ -247,6 +270,8 @@ for day in range(1, 366):
     cprint(vasya, color='cyan')
     cprint(home, color='cyan')
 
+# Подведём итоги. 
+    
 print('Серёжа за год заработал {} рублей'.format(serge.earn_money))
 print('Было съедено {} еды'.format(serge.food))
 print('Маша купила {} шуб'.format(masha.fur))
